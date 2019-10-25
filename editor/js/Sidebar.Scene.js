@@ -203,7 +203,10 @@ Sidebar.Scene = function ( editor ) {
 
 				var object = objects[ i ];
 
-				var option = buildOption( object, true );
+				let enabled = !object.userData.selectParent
+				var option = buildOption( object, enabled );
+				option.style.color = enabled?'rgb(0,0,0)':'rgb(255,192,192)';
+				option.disabled = !enabled;
 				option.style.paddingLeft = ( pad * 10 ) + 'px';
 				options.push( option );
 

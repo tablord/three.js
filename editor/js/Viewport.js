@@ -26,6 +26,7 @@ var Viewport = function ( editor ) {
 	// helpers
 
 	var grid = new THREE.GridHelper( 30, 30, 0x444444, 0x888888 );
+	grid.rotateX(Math.PI / 2);  // for demaurex
 	sceneHelpers.add( grid );
 
 	var array = grid.geometry.attributes.color.array;
@@ -180,6 +181,7 @@ var Viewport = function ( editor ) {
 					editor.select( object.userData.object );
 
 				} else {
+					while (object.userData.selectParent) object=object.parent;
 
 					editor.select( object );
 

@@ -586,7 +586,7 @@ var Strings = function ( config ) {
 
 		getKey: function ( key ) {
 
-			return values[ language ][ key ] || '???';
+			return values[ language ][ key ] || '?'+key+'?';
 
 		}
 
