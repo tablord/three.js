@@ -558,7 +558,7 @@ Sidebar.Object = function ( editor ) {
 
 			if ( object.receiveShadow !== undefined && object.receiveShadow !== objectReceiveShadow.getValue() ) {
 
-				object.material.needsUpdate = true;
+				if (object.material) object.material.needsUpdate = true;
 				editor.execute( new SetValueCommand( editor, object, 'receiveShadow', objectReceiveShadow.getValue() ) );
 
 			}

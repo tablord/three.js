@@ -33,6 +33,8 @@ var APP = {
 			dom.appendChild( renderer.domElement );
 
 			this.setScene( loader.parse( json.scene ) );
+			// addon for models
+			scene.traverse(function(object){models.createModel(object)});
 			this.setCamera( loader.parse( json.camera ) );
 
 			events = {

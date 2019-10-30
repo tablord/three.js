@@ -210,7 +210,7 @@ Sidebar.Scene = function ( editor ) {
 				option.style.paddingLeft = ( pad * 10 ) + 'px';
 				options.push( option );
 
-				addObjects( object.children, pad + 1 );
+				if (!object.userData || !object.userData.abstractChildren) addObjects( object.children, pad + 1 );
 
 			}
 

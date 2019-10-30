@@ -448,7 +448,15 @@ Editor.prototype = {
 
 		if ( this.selected === object ) return;
 
-		while (object && object.userData && object.userData.selectParent) object = object.parent;
+		let lastDetail = object;
+		while (object) {  // search for a parent that has userData.abstractChildren = true if any
+			if (object && object.userData && object.userData.abstractChildren){
+				lastDetail = object;
+				break;
+			}
+			object = object.parent;
+		}
+		object = lastDetail;
 
 		var uuid = null;
 
