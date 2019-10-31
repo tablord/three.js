@@ -8,6 +8,7 @@ var APP = {
 
 		var loader = new THREE.ObjectLoader();
 		var camera, scene, renderer;
+		var activeModels = [];
 
 		var events = {};
 
@@ -33,8 +34,7 @@ var APP = {
 			dom.appendChild( renderer.domElement );
 
 			this.setScene( loader.parse( json.scene ) );
-			// addon for models
-			scene.traverse(function(object){models.createModel(object)});
+
 			this.setCamera( loader.parse( json.camera ) );
 
 			events = {
@@ -104,6 +104,12 @@ var APP = {
 
 			dispatch( events.init, arguments );
 
+			// addon for models. must be done after dispatch init, so that any script modification of the scene is included
+			scene.traverse(function(object){
+				let model = models.createModel(object);
+				if (model) activeModels.push(model);
+			});
+
 		};
 
 		this.setCamera = function ( value ) {
@@ -156,15 +162,22 @@ var APP = {
 
 		}
 
-		var time, prevTime;
+		var time, prevTime, deltaTime;
 
 		function animate() {
 
 			time = performance.now();
+			deltaTime = time-prevTime;
 
 			try {
 
-				dispatch( events.update, { time: time, delta: time - prevTime } );
+				dispatch( events.update, { time: time, delta: deltaTime } );
+
+				// added for Models
+				for (let i = 0;i<activeModels.length;i++){
+					activeModels[i].simulate(time,deltaTime);
+				}
+
 
 			} catch ( e ) {
 
